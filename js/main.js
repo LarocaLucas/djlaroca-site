@@ -110,3 +110,82 @@ document.addEventListener('DOMContentLoaded', () => {
     .forEach((el) => staggerObserver.observe(el));
 
 });
+
+
+  // ─── MOSAICO DINÂMICO ─────────────────────────────────────
+  const mosaicGrid   = document.getElementById('mosaicGrid');
+  const TOTAL_FOTOS  = 84;
+  const POSICOES     = 9;
+  const FOTOS_PATH   = 'assets/images/galeria/';
+
+  // Rotações fixas para cada posição (estilo mídia kit)
+  const rotacoes = [-10, 6, -5, 8, -7, 9, -4, 7, -6];
+
+  // Distribui as 84 fotos entre as 9 posições
+  function distribuirFotos() {
+    const todos = Array.from({ length: TOTAL_FOTOS }, (_, i) =>
+      `${FOTOS_PATH}foto-${String(i + 1).padStart(3, '0')}.jpg`
+    );
+    // Embaralha
+    for (let i = todos.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [todos[i], todos[j]] = [todos[j], todos[i]];
+    }
+    // Divide em grupos para cada posição
+    const grupos = Array.from({ length: POSICOES }, () => []);
+    todos.forEach((foto, i) => grupos[i % POSICOES].push(foto));
+    return grupos;
+  }
+
+  // Monta o HTML do mosaico
+  function buildMosaic(grupos) {
+    mosaicGrid.innerHTML = '';
+    grupos.forEach((fotos, posIdx) => {
+      const item = document.createElement('div');
+      item.className = 'mosaic-item';
+      item.style.transform = `rotate(${rotacoes[posIdx]}deg)`;
+
+      const wrap = document.createElement('div');
+      wrap.className = 'mosaic-img-wrap';
+
+      fotos.forEach((src, i) => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `DJ Laroca - foto ${posIdx + 1}`;
+        if (i === 0) img.classList.add('active');
+        wrap.appendChild(img);
+      });
+
+      item.appendChild(wrap);
+      mosaicGrid.appendChild(item);
+    });
+  }
+
+  // Troca as fotos automaticamente — cada posição em tempo diferente
+  function startSlideshow(grupos) {
+    const indices = new Array(POSICOES).fill(0);
+
+    grupos.forEach((fotos, posIdx) => {
+      if (fotos.length <= 1) return;
+
+      // Intervalo diferente para cada posição (2.5s a 5s)
+      const intervalo = 2500 + posIdx * 300;
+
+      setInterval(() => {
+        const wrap = mosaicGrid.children[posIdx]?.querySelector('.mosaic-img-wrap');
+        if (!wrap) return;
+
+        const imgs = wrap.querySelectorAll('img');
+        imgs[indices[posIdx]].classList.remove('active');
+        indices[posIdx] = (indices[posIdx] + 1) % fotos.length;
+        imgs[indices[posIdx]].classList.add('active');
+      }, intervalo);
+    });
+  }
+
+  if (mosaicGrid) {
+    const grupos = distribuirFotos();
+    buildMosaic(grupos);
+    startSlideshow(grupos);
+  }
+
