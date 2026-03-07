@@ -115,11 +115,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // ─── MOSAICO DINÂMICO ─────────────────────────────────────
   const mosaicGrid   = document.getElementById('mosaicGrid');
   const TOTAL_FOTOS  = 84;
-  const POSICOES     = 9; // Deve bater com o número de .mosaic-item no CSS
+  const POSICOES     = 8;
   const FOTOS_PATH   = 'assets/images/galeria/';
 
-  // Rotações definidas via CSS — array vazio pois o CSS já define o transform
-  const rotacoes = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  // Rotações alternadas para 8 posições
+  const positions = [
+    { rot: -10, zi: 3 },
+    { rot:   7, zi: 2 },
+    { rot:  -5, zi: 5 },
+    { rot:   9, zi: 6 },
+    { rot:  -7, zi: 4 },
+    { rot:   6, zi: 5 },
+    { rot:  -4, zi: 3 },
+    { rot:  10, zi: 4 },
+  ];
 
   // Distribui as 84 fotos entre as 9 posições
   function distribuirFotos() {
@@ -137,13 +146,19 @@ document.addEventListener('DOMContentLoaded', () => {
     return grupos;
   }
 
-  // Monta o HTML do mosaico
+  // Monta o HTML do mosaico com posições definidas pelo JS
   function buildMosaic(grupos) {
     mosaicGrid.innerHTML = '';
+    const containerW = mosaicGrid.offsetWidth || window.innerWidth;
+    const isMobile   = window.innerWidth <= 768;
+
     grupos.forEach((fotos, posIdx) => {
       const item = document.createElement('div');
       item.className = 'mosaic-item';
-      item.style.transform = `rotate(${rotacoes[posIdx]}deg)`;
+
+      const p = positions[posIdx];
+      item.style.transform = `rotate(${p.rot}deg)`;
+      item.style.zIndex    = p.zi;
 
       const wrap = document.createElement('div');
       wrap.className = 'mosaic-img-wrap';

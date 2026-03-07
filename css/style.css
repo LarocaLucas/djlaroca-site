@@ -600,21 +600,28 @@ footer {
 
 /* ---------- MOSAICO DINÂMICO ---------- */
 .mosaic-grid {
-  position: relative;
-  width: 100%;
-  height: 1000px;
-  margin: 3rem 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  padding: 80px 2rem;
+  margin: 2rem 0;
 }
 
 .mosaic-item {
-  position: absolute;
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  flex-shrink: 0;
+  width: 160px;
+  height: 226px;
+  margin: 0 -15px;
+  transition: transform 0.35s ease;
   cursor: pointer;
+  position: relative;
 }
 
 .mosaic-item:hover {
   z-index: 30 !important;
-  transform: scale(1.1) rotate(0deg) !important;
+  transform: rotate(0deg) scale(1.1) translateY(-10px) !important;
 }
 
 .mosaic-item::after {
@@ -622,11 +629,11 @@ footer {
   position: absolute;
   inset: -3px;
   background: linear-gradient(135deg, var(--purple), transparent, var(--neon));
-  z-index: 0;
   border-radius: 4px;
   opacity: 0;
   transition: opacity 0.3s;
   pointer-events: none;
+  z-index: 2;
 }
 .mosaic-item:hover::after { opacity: 1; }
 
@@ -653,87 +660,19 @@ footer {
 }
 .mosaic-img-wrap img.active { opacity: 1; }
 
-/* ── Posições caóticas espalhadas ── */
-.mosaic-item:nth-child(1) {
-  width: 155px; height: 220px;
-  top: 20px; left: 2%;
-  z-index: 4; transform: rotate(-11deg);
-}
-.mosaic-item:nth-child(2) {
-  width: 168px; height: 238px;
-  top: 140px; left: 13%;
-  z-index: 3; transform: rotate(7deg);
-}
-.mosaic-item:nth-child(3) {
-  width: 175px; height: 248px;
-  top: 30px; left: 26%;
-  z-index: 5; transform: rotate(-5deg);
-}
-.mosaic-item:nth-child(4) {
-  width: 160px; height: 226px;
-  top: 190px; left: 36%;
-  z-index: 6; transform: rotate(9deg);
-}
-.mosaic-item:nth-child(5) {
-  width: 182px; height: 257px;
-  top: 50px; left: 48%;
-  z-index: 4; transform: rotate(-7deg);
-}
-.mosaic-item:nth-child(6) {
-  width: 158px; height: 224px;
-  top: 220px; left: 60%;
-  z-index: 5; transform: rotate(6deg);
-}
-.mosaic-item:nth-child(7) {
-  width: 172px; height: 243px;
-  top: 10px; left: 69%;
-  z-index: 3; transform: rotate(-4deg);
-}
-.mosaic-item:nth-child(8) {
-  width: 163px; height: 230px;
-  top: 160px; left: 80%;
-  z-index: 4; transform: rotate(10deg);
-}
-.mosaic-item:nth-child(9) {
-  width: 170px; height: 240px;
-  top: 430px; left: 30%;
-  z-index: 7; transform: rotate(-8deg);
-}
-
-/* Tablet */
-@media (max-width: 1024px) {
-  .mosaic-grid { height: 820px; }
-  .mosaic-item:nth-child(1) { width: 130px; height: 184px; top: 18px;  left: 1%;  }
-  .mosaic-item:nth-child(2) { width: 140px; height: 198px; top: 118px; left: 12%; }
-  .mosaic-item:nth-child(3) { width: 146px; height: 206px; top: 26px;  left: 25%; }
-  .mosaic-item:nth-child(4) { width: 134px; height: 190px; top: 160px; left: 35%; }
-  .mosaic-item:nth-child(5) { width: 152px; height: 215px; top: 42px;  left: 47%; }
-  .mosaic-item:nth-child(6) { width: 132px; height: 187px; top: 185px; left: 59%; }
-  .mosaic-item:nth-child(7) { width: 144px; height: 204px; top: 10px;  left: 68%; }
-  .mosaic-item:nth-child(8) { width: 136px; height: 193px; top: 136px; left: 79%; }
-  .mosaic-item:nth-child(9) { width: 142px; height: 201px; top: 360px; left: 29%; }
-}
-
 /* Mobile */
 @media (max-width: 768px) {
   .mosaic-grid {
-    height: auto;
-    display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: 10px;
-    padding: 1rem 0;
+    padding: 1rem;
   }
   .mosaic-item,
   .mosaic-item:nth-child(n) {
-    position: relative;
     width: calc(33% - 10px);
     height: 150px;
-    top: auto; left: auto; right: auto;
+    margin: 0;
     transform: none !important;
-  }
-  .mosaic-item:hover {
-    transform: scale(1.05) !important;
   }
 }
 
