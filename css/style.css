@@ -275,6 +275,35 @@ nav.scrolled {
   animation: lineExpand 2s 1.5s ease infinite;
 }
 
+
+/* ---------- VÍDEO HERO ---------- */
+.hero-video-wrap {
+  position: absolute;
+  right: 12rem;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  height: 85vh;
+  width: calc(85vh * 9 / 16);
+  z-index: 3;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 2px solid rgba(155,48,255,0.4);
+  box-shadow: 0 0 40px rgba(155,48,255,0.3), 0 0 80px rgba(155,48,255,0.1);
+  animation: fadeUp 1s 0.8s ease forwards;
+  opacity: 0;
+}
+.hero-video-wrap iframe {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: calc(85vh * 9 / 16 * 3);
+  height: calc(85vh * 3);
+  transform: translate(-50%, -50%) scale(0.333);
+  transform-origin: center center;
+  border: none;
+  pointer-events: none;
+}
+@media (max-width: 1100px) { .hero-video-wrap { display: none; } }
 /* ---------- SEÇÕES GENÉRICAS ---------- */
 section { padding: 8rem 4rem; }
 .section-label {
